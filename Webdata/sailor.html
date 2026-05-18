@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Code Generator</title>
+    <style>
+        /* Basic Reset and Layout */
+        body {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #4ec9b0;
+        }
+
+        /* The Code Container */
+        .code-box {
+            background-color: #252526;
+            border: 1px solid #3e3e42;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 700px;
+            min-height: 200px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        /* Pre tag for preserving formatting */
+        pre {
+            margin: 0;
+            white-space: pre-wrap;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Syntax Highlighting Simulation (Colors) */
+        .keyword { color: #569cd6; } /* Blue */
+        .string { color: #ce9178; } /* Orange */
+        .function { color: #dcdcaa; } /* Yellow */
+        .comment { color: #6a9955; } /* Green */
+
+        /* Controls */
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #0e639c;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: #1177bb;
+        }
+
+        .timer-display {
+            font-size: 0.9em;
+            color: #858585;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>&lt;Random_Piece_of_Code /&gt;</h1>
+
+    <div class="code-box">
+        <!-- The code will be injected here -->
+        <pre id="code-display">Loading...</pre>
+    </div>
+
+    <div class="controls">
+        <button onclick="loadNewCode()">Load New Code</button>
+        <label class="timer-display">
+            Auto-refresh: <input type="checkbox" id="auto-toggle" checked> On
+        </label>
+    </div>
+
+    <script>
+        // 1. The Data: A collection of code snippets
+        // You can add as many as you want here.
+        const snippets = [
+            {
+                lang: "JavaScript",
+                code: `function greet(name) {\n  return "Hello, " + name + "!";\n}\nconsole.log(greet("Sailor"));`
+            },
+            {
+                lang: "Python",
+                code: `def calculate_area(radius):\n    pi = 3.14159\n    return pi * (radius ** 2)\n\narea = calculate_area(5)\nprint(f"The area is {area}")`
+            },
+            {
+                lang: "HTML",
+                code: `<div class="sailor-container">\n  <h1>Welcome Aboard</h1>\n  <button id="startBtn">Set Sail</button>\n</div>`
+            },
+            {
+                lang: "CSS",
+                code: `.sailor-card {\n  background: linear-gradient(to right, #2193b0, #6dd5ed);\n  padding: 20px;\n  border-radius: 10px;\n  color: white;\n}`
+            },
+            {
+                lang: "JavaScript",
+                code: `const ships = ['Endeavour', 'Normandy', 'Red Witch'];\nships.forEach(ship => {\n  console.log(\`Sailing vessel: \${ship}\`);\n});`
+            }
+        ];
+
+        const displayElement = document.getElementById('code-display');
+        let autoRefreshInterval;
+
+        // 2. Function to simulate syntax highlighting using simple HTML replacement
+        function highlightSyntax(code) {
+            // Add simple coloring classes for demonstration
+            let html = code
+                .replace(/(const|let|var|function|return|def|class)/g, '<span class="keyword">$1</span>')
+                .replace(/(".*?"|'.*?')/g, '<span class="string">$1</span>')
+                .replace(/(\/\/.*|\/\*[\s\S]*?\*\/)/g, '<span class="comment">$1</span>'); // Simple comment match
+            return html;
+        }
+
+        // 3. Main Logic to Load new code
+        function loadNewCode() {
+            // Pick a random index
+            const randomIndex = Math.floor(Math.random() * snippets.length);
+            const selected = snippets[randomIndex];
+            
+            // Update the text with syntax highlighting
+            displayElement.innerHTML = `<span class="comment">// Language: ${selected.lang}</span>\n\n` + highlightSyntax(selected.code);
+        }
+
+        // 4. Auto-Load Logic
+        function startAutoLoader() {
+            // Clear existing timer if any
+            if (autoRefreshInterval) clearInterval(autoRefreshInterval);
+            
+            // Set new timer (3000ms = 3 seconds)
+            autoRefreshInterval = setInterval(() => {
+                loadNewCode();
+            }, 3000);
+        }
+
+        // 5. Event Listener for the Checkbox
+        document.getElementById('auto-toggle').addEventListener('change', function(e) {
+            if(e.target.checked) {
+                startAutoLoader();
+            } else {
+                clearInterval(autoRefreshInterval);
+            }
+        });
+
+        // Initial Load
+        loadNewCode();
+        startAutoLoader();
+
+    </script>
+</body>
+</html>

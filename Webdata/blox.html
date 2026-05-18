@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blox Fruits - Exclusive Codes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- CSS STYLES --- */
+        :root {
+            --primary: #ffb703; /* Blox Fruit Gold */
+            --secondary: #fb8500;
+            --bg: #0f0f15;
+            --card-bg: #1a1a24;
+            --text: #ffffff;
+            --accent: #219ebc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            margin-top: 20px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(251, 133, 0, 0.3));
+        }
+
+        p.subtitle {
+            color: #888;
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+
+        .status-bar {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-top: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: inline-block;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            width: 100%;
+            max-width: 1200px;
+            padding-bottom: 50px;
+        }
+
+        .code-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 25px;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .code-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 15px 40px rgba(251, 133, 0, 0.15);
+        }
+
+        .code-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .reward-badge {
+            background: rgba(33, 158, 188, 0.15);
+            color: var(--accent);
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .code-text {
+            font-family: 'Courier New', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px dashed rgba(255,255,255,0.2);
+            user-select: all;
+        }
+
+        .copy-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: #000;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            text-transform: uppercase;
+        }
+
+        .copy-btn:hover {
+            opacity: 0.9;
+        }
+
+        .copy-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Toast Notification */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 50px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            bottom: 30px;
+            border-left: 5px solid var(--primary);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s;
+        }
+
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 50px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Blox Fruits Codes</h1>
+        <p class="subtitle">Unlock exclusive rewards, fruits, and berries!</p>
+        <div class="status-bar">
+            Last Updated: <span id="lastUpdated">Just Now</span>
+        </div>
+    </header>
+
+    <div class="grid-container" id="codeGrid">
+        <!-- Cards will be injected here by JavaScript -->
+    </div>
+
+    <div id="toast">Code copied to clipboard!</div>
+
+    <script>
+        /* --- JAVASCRIPT LOGIC --- */
+
+        /* 
+           1. THE DATA SOURCE
+           To make this automatic, you would usually connect this to an API.
+           For now, we store your codes here. Add new codes to this list!
+           Format: { code: "XYX-ABC", reward: "100 Gold" }
+        */
+        const codesData = [
+            { code: "Axoire", reward: "20 minutes of 2x Experience" },
+            { code: "Sub2Fer99", reward: "20 minutes of 2x Experience" },
+            { code: "KITT_RESET", reward: "Stat Refund" },
+            { code: "Enyu_is_Pro", reward: "20 minutes of 2x Experience" },
+            { code: "EASTEREXP", reward: "20 minutes of 2x Experience" }, // Note: Verify valid codes on game release
+            { code: "KITTGAMING", reward: "20 minutes of 2x Experience" }
+            ,{ code: "JCWK", reward: "20 minutes of 2x Experience" }
+            ,{ code: "BLUXXY", reward: "20 minutes of 2x Experience" }
+            ,{ code: "StrawHatMarine", reward: "20 minutes of 2x Experience" }
+        ];
+
+        // 2. RENDER FUNCTION
+        function renderCodes() {
+            const grid = document.getElementById('codeGrid');
+            grid.innerHTML = ''; // Clear existing content
+
+            codesData.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'code-card';
+                
+                card.innerHTML = `
+                    <div class="reward-badge">${item.reward}</div>
+                    <div class="code-text" id="code-${item.code}">${item.code}</div>
+                    <button class="copy-btn" onclick="copyCode('${item.code}')">Copy Code</button>
+                `;
+                
+                grid.appendChild(card);
+            });
+
+            // Update timestamp
+            document.getElementById('lastUpdated').innerText = new Date().toLocaleTimeString();
+        }
+
+        // 3. COPY FUNCTION
+        function copyCode(codeId) {
+            // Get the text from the specific code element
+            const codeText = document.getElementById('code-' + codeId).innerText;
+            
+            navigator.clipboard.writeText(codeText).then(() => {
+                showToast();
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        // 4. TOAST NOTIFICATION UI
+        function showToast() {
+            var x = document.getElementById("toast");
+            x.className = "show";
+            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        }
+
+        // Initialize the page
+        window.onload = renderCodes;
+
+    </script>
+</body>
+</html>
